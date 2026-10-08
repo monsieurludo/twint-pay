@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paiement TWINT</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f7f7f9;
+            color: #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            background: #ffffff;
+            padding: 30px 20px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            text-align: center;
+            max-width: 380px;
+            width: 100%;
+        }
+        .twint-badge {
+            background-color: #000000;
+            color: #00FF00;
+            font-weight: 800;
+            font-size: 1.2rem;
+            display: inline-block;
+            padding: 8px 24px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+        h1 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        p {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 16px;
+            margin-bottom: 12px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            box-sizing: border-box;
+        }
+        .btn-copy {
+            background-color: #f0f0f5;
+            color: #333;
+            border: 1px solid #e1e1e8;
+        }
+        .btn-copy:active {
+            background-color: #e1e1e8;
+            transform: scale(0.98);
+        }
+        .btn-copy.success {
+            background-color: #d4edda;
+            color: #155724;
+            border-color: #c3e6cb;
+        }
+        .btn-twint {
+            background-color: #000000;
+            color: #ffffff;
+        }
+        .btn-twint:active {
+            transform: scale(0.98);
+            background-color: #333333;
+        }
+        .icon {
+            margin-right: 8px;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="twint-badge">TWINT</div>
+        
+        <h1>Régler par TWINT</h1>
+        <p>1. Copiez le numéro ci-dessous, puis ouvrez TWINT pour le coller dans l'onglet "Envoyer".</p>
+        
+        <button id="copyBtn" class="btn btn-copy" onclick="copyNumber()">
+            <span class="icon">📋</span> <span id="btnText">Copier 078 215 24 25</span>
+        </button>
+
+        <p style="margin-top: 15px; margin-bottom: 15px;">2. Lancez l'application :</p>
+        
+        <button class="btn btn-twint" onclick="openTwint()">
+            <span class="icon">📱</span> Ouvrir TWINT
+        </button>
+    </div>
+
+    <script>
+        const phoneNumber = "0782152425";
+
+        function copyNumber() {
+            navigator.clipboard.writeText(phoneNumber).then(() => {
+                const copyBtn = document.getElementById('copyBtn');
+                const btnText = document.getElementById('btnText');
+                const originalText = btnText.innerText;
+                
+                copyBtn.classList.add('success');
+                btnText.innerText = "Numéro copié !";
+                
+                setTimeout(() => {
+                    copyBtn.classList.remove('success');
+                    btnText.innerText = originalText;
+                }, 3000);
+            }).catch(err => {
+                alert("Numéro à copier : " + phoneNumber);
+            });
+        }
+
+        function openTwint() {
+            // Tente la redirection vers l'application TWINT
+            window.location.href = "twint://";
+        }
+    </script>
+</body>
+</html>
