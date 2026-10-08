@@ -87,10 +87,10 @@
             background-color: #333333;
         }
         .btn-bank {
-            background-color: #1a1a1a;
+            background-color: #222222;
             color: #ffffff;
-            font-size: 0.9rem;
-            padding: 12px;
+            font-size: 0.85rem;
+            padding: 12px 8px;
         }
         .grid-banks {
             display: grid;
@@ -112,7 +112,7 @@
 <body>
 
     <div class="container">
-        <div class="twint-badge">TWINT 444</div>
+        <div class="twint-badge">TWINT</div>
         
         <h1>Régler par TWINT</h1>
         <p>1. Copiez le numéro ci-dessous, puis ouvrez TWINT pour le coller dans l'onglet "Envoyer".</p>
@@ -121,26 +121,32 @@
             <span class="icon">📋</span> <span id="btnText">Copier 078 215 24 25</span>
         </button>
 
-        <p style="margin-top: 20px; margin-bottom: 10px;">2. Lancez votre application :</p>
+        <p style="margin-top: 20px; margin-bottom: 10px;">2. Lancez l'application :</p>
 
         <!-- Section affichée sur iOS (iPhone) -->
         <div id="iosSection" style="display: none;">
             <a href="twint://" class="btn btn-twint">
-                <span class="icon">📱</span> Ouvrir TWINT 444
+                <span class="icon">📱</span> Ouvrir TWINT 555
             </a>
         </div>
 
         <!-- Section affichée sur Android -->
         <div id="androidSection" style="display: none;">
+            <!-- Tentative d'ouverture via le sélecteur Android global -->
+            <a href="intent://pay#Intent;scheme=twint;end" class="btn btn-twint">
+                <span class="icon">📱</span> Choisir mon app TWINT
+            </a>
+
+            <p style="font-size: 0.8rem; color: #888; margin: 12px 0 8px 0;">Ou accès direct par banque :</p>
+
             <div class="grid-banks">
-                <a href="intent://#Intent;package=ch.twint.payment;end" class="btn btn-bank">Prepaid TWINT</a>
+                <a href="intent://#Intent;package=ch.migrosbank.twint;end" class="btn btn-bank">Migros Bank</a>
                 <a href="intent://#Intent;package=com.ubs.Paymit.android;end" class="btn btn-bank">UBS TWINT</a>
                 <a href="intent://#Intent;package=ch.postfinance.twint.android;end" class="btn btn-bank">PostFinance</a>
+                <a href="intent://#Intent;package=ch.twint.payment;end" class="btn btn-bank">Prepaid TWINT</a>
                 <a href="intent://#Intent;package=ch.bcge.twint;end" class="btn btn-bank">BCGE TWINT</a>
                 <a href="intent://#Intent;package=ch.raiffeisen.twint;end" class="btn btn-bank">Raiffeisen</a>
-                <a href="intent://#Intent;package=ch.bcv.twint;end" class="btn btn-bank">BCV TWINT</a>
             </div>
-            <p class="note">Une fois le numéro copié, vous pouvez aussi ouvrir directement TWINT depuis votre écran d'accueil.</p>
         </div>
     </div>
 
