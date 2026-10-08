@@ -48,6 +48,14 @@
             margin-bottom: 20px;
             line-height: 1.4;
         }
+        .phone {
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin: 0 0 12px;
+            color: #111;
+            user-select: all;
+        }
         .btn {
             display: flex;
             align-items: center;
@@ -105,7 +113,24 @@
         .note {
             font-size: 0.8rem;
             color: #888;
-            margin-top: 15px;
+            margin: 12px 0 8px;
+            line-height: 1.4;
+        }
+        details {
+            margin-top: 8px;
+            text-align: left;
+        }
+        summary {
+            font-size: 0.85rem;
+            color: #444;
+            cursor: pointer;
+            margin-bottom: 8px;
+        }
+        #status {
+            min-height: 1.2em;
+            font-size: 0.85rem;
+            color: #155724;
+            margin: 8px 0 0;
         }
     </style>
 </head>
@@ -113,40 +138,46 @@
 
     <div class="container">
         <div class="twint-badge">TWINT</div>
-        
+
         <h1>Régler par TWINT</h1>
-        <p>1. Copiez le numéro ci-dessous, puis ouvrez TWINT pour le coller dans l'onglet "Envoyer".</p>
-        
-        <button id="copyBtn" class="btn btn-copy" onclick="copyNumber()">
-            <span class="icon">📋</span> <span id="btnText">Copier 078 215 24 25</span>
+        <p>Copiez le numéro, ouvrez votre app, puis collez-le dans « Envoyer ».</p>
+
+        <p class="phone" id="phoneDisplay">078 215 24 25</p>
+        <button id="copyBtn" class="btn btn-copy" type="button" onclick="copyNumber()">
+            <span class="icon">📋</span> <span id="btnText">Copier le numéro</span>
         </button>
+        <p id="status" aria-live="polite"></p>
 
-        <p style="margin-top: 20px; margin-bottom: 10px;">2. Lancez l'application :</p>
+        <!--
+          The browsable TWINT intent (ch.twint.action.TWINT_PAYMENT) opens the
+          shop-payment screen and shows "L'action souhaitée n'a pu être
+          effectuée" when no merchant code is present. P2P has no such code.
+          These links try the launcher activity, and fall back to the Play
+          Store listing so the user can tap Ouvrir and reach the home screen.
+        -->
 
-        <!-- Section affichée sur iOS (iPhone) -->
         <div id="iosSection" style="display: none;">
-            <a href="twint://" class="btn btn-twint">
-                <span class="icon">📱</span> Ouvrir TWINT 555
+            <a class="btn btn-twint" data-copy href="twint://">
+                <span class="icon">📱</span> Ouvrir TWINT
             </a>
         </div>
 
-        <!-- Section affichée sur Android -->
         <div id="androidSection" style="display: none;">
-            <!-- Tentative d'ouverture via le sélecteur Android global -->
-            <a href="intent://pay#Intent;scheme=twint;end" class="btn btn-twint">
-                <span class="icon">📱</span> Choisir mon app TWINT
-            </a>
-
-            <p style="font-size: 0.8rem; color: #888; margin: 12px 0 8px 0;">Ou accès direct par banque :</p>
+            <p class="note">Choisissez votre banque. Le numéro est copié. Si le Play Store s'ouvre, appuyez sur « Ouvrir », puis dans TWINT sur « Envoyer ».</p>
 
             <div class="grid-banks">
-                <a href="intent://#Intent;package=ch.migrosbank.twint;end" class="btn btn-bank">Migros Bank</a>
-                <a href="intent://#Intent;package=com.ubs.Paymit.android;end" class="btn btn-bank">UBS TWINT</a>
-                <a href="intent://#Intent;package=ch.postfinance.twint.android;end" class="btn btn-bank">PostFinance</a>
-                <a href="intent://#Intent;package=ch.twint.payment;end" class="btn btn-bank">Prepaid TWINT</a>
-                <a href="intent://#Intent;package=ch.bcge.twint;end" class="btn btn-bank">BCGE TWINT</a>
-                <a href="intent://#Intent;package=ch.raiffeisen.twint;end" class="btn btn-bank">Raiffeisen</a>
+                <a class="btn btn-bank" data-copy href="intent:#Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;package=ch.migrosbank.twint;S.browser_fallback_url=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dch.migrosbank.twint;end">Migros Bank</a>
+                <a class="btn btn-bank" data-copy href="intent:#Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;package=com.ubs.Paymit.android;S.browser_fallback_url=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.ubs.Paymit.android;end">UBS TWINT</a>
+                <a class="btn btn-bank" data-copy href="intent:#Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;package=ch.postfinance.twint.android;S.browser_fallback_url=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dch.postfinance.twint.android;end">PostFinance</a>
+                <a class="btn btn-bank" data-copy href="intent:#Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;package=ch.twint.payment;S.browser_fallback_url=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dch.twint.payment;end">Prepaid TWINT</a>
+                <a class="btn btn-bank" data-copy href="intent:#Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;package=com.bcge.android.twt;S.browser_fallback_url=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.bcge.android.twt;end">BCGE TWINT</a>
+                <a class="btn btn-bank" data-copy href="intent:#Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;package=ch.raiffeisen.twint;S.browser_fallback_url=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dch.raiffeisen.twint;end">Raiffeisen</a>
+                <a class="btn btn-bank" data-copy href="intent:#Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;package=ch.zkb.twint;S.browser_fallback_url=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dch.zkb.twint;end">ZKB TWINT</a>
             </div>
+        </div>
+
+        <div id="desktopSection" style="display: none;">
+            <p class="note">Ouvrez cette page sur le téléphone qui a TWINT.</p>
         </div>
     </div>
 
@@ -154,31 +185,79 @@
         const phoneNumber = "0782152425";
 
         document.addEventListener("DOMContentLoaded", function() {
-            const isAndroid = /Android/i.test(navigator.userAgent);
-            
+            const ua = navigator.userAgent;
+            const isAndroid = /Android/i.test(ua);
+            const isIOS = /iPhone|iPad|iPod/i.test(ua);
+
             if (isAndroid) {
                 document.getElementById("androidSection").style.display = "block";
-            } else {
+            } else if (isIOS) {
                 document.getElementById("iosSection").style.display = "block";
+            } else {
+                document.getElementById("desktopSection").style.display = "block";
             }
         });
 
+        document.addEventListener("click", function(event) {
+            const link = event.target.closest("[data-copy]");
+            if (!link) return;
+            copySync(phoneNumber);
+            showCopied("Numéro copié. Dans TWINT : Envoyer, puis coller. Si le Play Store s'ouvre, appuyez d'abord sur Ouvrir.");
+        });
+
         function copyNumber() {
-            navigator.clipboard.writeText(phoneNumber).then(() => {
-                const copyBtn = document.getElementById('copyBtn');
-                const btnText = document.getElementById('btnText');
-                const originalText = btnText.innerText;
-                
-                copyBtn.classList.add('success');
-                btnText.innerText = "Numéro copié !";
-                
-                setTimeout(() => {
-                    copyBtn.classList.remove('success');
-                    btnText.innerText = originalText;
-                }, 3000);
-            }).catch(err => {
-                alert("Numéro à copier : " + phoneNumber);
-            });
+            const ok = copySync(phoneNumber);
+            if (ok) {
+                showCopied("Numéro copié !");
+                return;
+            }
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(phoneNumber).then(function() {
+                    showCopied("Numéro copié !");
+                }).catch(function() {
+                    alert("Numéro à copier : " + phoneNumber);
+                });
+                return;
+            }
+            alert("Numéro à copier : " + phoneNumber);
+        }
+
+        function copySync(text) {
+            const field = document.createElement("textarea");
+            field.value = text;
+            field.setAttribute("readonly", "");
+            field.style.position = "fixed";
+            field.style.top = "0";
+            field.style.left = "0";
+            field.style.opacity = "0";
+            document.body.appendChild(field);
+            field.focus();
+            field.select();
+            field.setSelectionRange(0, text.length);
+            let ok = false;
+            try {
+                ok = document.execCommand("copy");
+            } catch (err) {
+                ok = false;
+            }
+            document.body.removeChild(field);
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).catch(function() {});
+            }
+            return ok;
+        }
+
+        function showCopied(message) {
+            const copyBtn = document.getElementById("copyBtn");
+            const btnText = document.getElementById("btnText");
+            const status = document.getElementById("status");
+            copyBtn.classList.add("success");
+            btnText.textContent = "Numéro copié !";
+            status.textContent = message;
+            setTimeout(function() {
+                copyBtn.classList.remove("success");
+                btnText.textContent = "Copier le numéro";
+            }, 3000);
         }
     </script>
 </body>
