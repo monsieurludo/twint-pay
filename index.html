@@ -54,7 +54,7 @@
             justify-content: center;
             width: 100%;
             padding: 16px;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             border: none;
             border-radius: 12px;
             font-size: 1rem;
@@ -86,16 +86,33 @@
             transform: scale(0.98);
             background-color: #333333;
         }
+        .btn-bank {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            font-size: 0.9rem;
+            padding: 12px;
+        }
+        .grid-banks {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 10px;
+        }
         .icon {
             margin-right: 8px;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
+        }
+        .note {
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: 15px;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <div class="twint-badge">TWINT 33</div>
+        <div class="twint-badge">TWINT 444</div>
         
         <h1>Régler par TWINT</h1>
         <p>1. Copiez le numéro ci-dessous, puis ouvrez TWINT pour le coller dans l'onglet "Envoyer".</p>
@@ -104,25 +121,39 @@
             <span class="icon">📋</span> <span id="btnText">Copier 078 215 24 25</span>
         </button>
 
-        <p style="margin-top: 15px; margin-bottom: 15px;">2. Lancez l'application :</p>
-        
-        <!-- Lien dynamique configuré au chargement selon iOS / Android -->
-        <a id="twintLink" href="twint://" class="btn btn-twint">
-            <span class="icon">📱</span> Ouvrir TWINT 33
-        </a>
+        <p style="margin-top: 20px; margin-bottom: 10px;">2. Lancez votre application :</p>
+
+        <!-- Section affichée sur iOS (iPhone) -->
+        <div id="iosSection" style="display: none;">
+            <a href="twint://" class="btn btn-twint">
+                <span class="icon">📱</span> Ouvrir TWINT 444
+            </a>
+        </div>
+
+        <!-- Section affichée sur Android -->
+        <div id="androidSection" style="display: none;">
+            <div class="grid-banks">
+                <a href="intent://#Intent;package=ch.twint.payment;end" class="btn btn-bank">Prepaid TWINT</a>
+                <a href="intent://#Intent;package=com.ubs.Paymit.android;end" class="btn btn-bank">UBS TWINT</a>
+                <a href="intent://#Intent;package=ch.postfinance.twint.android;end" class="btn btn-bank">PostFinance</a>
+                <a href="intent://#Intent;package=ch.bcge.twint;end" class="btn btn-bank">BCGE TWINT</a>
+                <a href="intent://#Intent;package=ch.raiffeisen.twint;end" class="btn btn-bank">Raiffeisen</a>
+                <a href="intent://#Intent;package=ch.bcv.twint;end" class="btn btn-bank">BCV TWINT</a>
+            </div>
+            <p class="note">Une fois le numéro copié, vous pouvez aussi ouvrir directement TWINT depuis votre écran d'accueil.</p>
+        </div>
     </div>
 
     <script>
         const phoneNumber = "0782152425";
 
-        // Configuration du lien d'ouverture selon l'OS
         document.addEventListener("DOMContentLoaded", function() {
             const isAndroid = /Android/i.test(navigator.userAgent);
-            const twintLink = document.getElementById("twintLink");
             
             if (isAndroid) {
-                // Syntaxe Intent requise par Android Chrome
-                twintLink.href = "intent://#Intent;scheme=twint;end";
+                document.getElementById("androidSection").style.display = "block";
+            } else {
+                document.getElementById("iosSection").style.display = "block";
             }
         });
 
