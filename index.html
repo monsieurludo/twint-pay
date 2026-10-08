@@ -106,9 +106,10 @@
 
         <p style="margin-top: 15px; margin-bottom: 15px;">2. Lancez l'application :</p>
         
-        <button class="btn btn-twint" onclick="openTwint()">
+        <!-- Lien HTML direct obligatoire pour Android Chrome -->
+        <a href="twint://" class="btn btn-twint" rel="external">
             <span class="icon">📱</span> Ouvrir TWINT
-        </button>
+        </a>
     </div>
 
     <script>
@@ -130,11 +131,6 @@
             }).catch(err => {
                 alert("Numéro à copier : " + phoneNumber);
             });
-        }
-
-        function openTwint() {
-            // Tente la redirection vers l'application TWINT
-            window.location.href = "twint://";
         }
     </script>
 </body>
